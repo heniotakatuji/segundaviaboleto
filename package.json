@@ -1,0 +1,24 @@
+{
+  "name": "segundavia",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "ejs": "~2.6.1",
+    "express": "^4.17.1",
+    "express-recaptcha": "^5.0.1",
+    "http-errors": "~1.6.3",
+    "isomorphic-fetch": "^2.2.1",
+    "mongodb": "^3.3.5",
+    "mongoose": "^5.7.13",
+    "morgan": "~1.9.1",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5"
+  }
+}
