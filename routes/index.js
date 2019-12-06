@@ -4,8 +4,8 @@ var request = require("request-promise");
 const fetch = require("isomorphic-fetch");
 var fs = require("fs");
 
-const siteKey = "6LesBMUUAAAAAB_Xg31mRQ8YH_7c4fpmrZk0kx7p";
-const secretKey = "6LesBMUUAAAAAPcHepVJ6vKskXQaDYq7NOzsHowR";
+const siteKey = process.env.V3_PUBLIC;
+const secretKey = process.env.SECRET_KEY;
 
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/db_got");
@@ -48,12 +48,12 @@ var Logs = mongoose.model("LogData", logDataSchema);
 router.get("/", function(req, res) {
   res.render("index", {
     title: "teste",
-    V3_PUBLIC: "6LesBMUUAAAAAB_Xg31mRQ8YH_7c4fpmrZk0kx7p"
+    V3_PUBLIC: process.env.V3_PUBLIC
   });
 });
 
 const handleSend = (req, res) => {
-  const secret_key = "6LesBMUUAAAAAPcHepVJ6vKskXQaDYq7NOzsHowR";
+  const secret_key = process.env.SECRET_KEY;
   const token = req.body.token;
   const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
 
@@ -121,7 +121,7 @@ router.post("/", async function(req, res, next) {
             nomearquivoparcelado: docs.nomearquivoparcelado,
             boletoIntegral: "kdjlfajlflaboletoIntegral",
             boletoParcela: "kdjlfajlflaboletoParcela",
-            V3_PUBLIC: "6LesBMUUAAAAAB_Xg31mRQ8YH_7c4fpmrZk0kx7p"
+            V3_PUBLIC: process.env.V3_PUBLIC
           });
           res.end();
         } catch (err) {
@@ -153,9 +153,7 @@ router.post("/boleto", async function(req, res, next) {
       return;
     }
 
-    var files = fs.createReadStream(
-      "/Users/heniotakatuji/tmp/" + req.body.radio
-    );
+    var files = fs.createReadStream(process.env.PATH_BOLETO + req.body.radio);
     files.on("error", function(err) {
       if (err.code == "ENOENT") {
         var erro = new Error("Boleto não localizado");

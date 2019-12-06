@@ -43,7 +43,7 @@ app.use(function(err, req, res, next) {
   res.render("error");
 });
 
-var server = app.listen(3000);
+var server = app.listen(process.env.PORT);
 console.log("Servidor Express iniciado na porta %s", server.address().port);
 
 module.exports = app;

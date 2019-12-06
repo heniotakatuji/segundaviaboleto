@@ -185,7 +185,7 @@
 
       grecaptcha.ready(function() {
         grecaptcha
-          .execute("6LesBMUUAAAAAB_Xg31mRQ8YH_7c4fpmrZk0kx7p", {
+          .execute(process.env.V3_PUBLIC, {
             action: "boleto"
           })
           .then(function(token) {
