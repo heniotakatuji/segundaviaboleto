@@ -185,7 +185,7 @@
 
       grecaptcha.ready(function() {
         grecaptcha
-          .execute(process.env.V3_PUBLIC, {
+          .execute("<%= V3_PUBLIC %>", {
             action: "boleto"
           })
           .then(function(token) {

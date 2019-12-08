@@ -200,7 +200,7 @@
 
       grecaptcha.ready(function() {
         grecaptcha
-          .execute(V3_PUBLIC, {
+          .execute("<%= V3_PUBLIC %>", {
             action: "boleto"
           })
           .then(function(token) {

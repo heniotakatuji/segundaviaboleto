@@ -5,8 +5,6 @@ var request = require("request-promise");
 const fetch = require("isomorphic-fetch");
 var fs = require("fs");
 
-const secretKey = process.env.SECRET_KEY;
-
 var mongoose = require("mongoose");
 console.log(
   "mongodb://" +
@@ -92,12 +90,14 @@ router.post("/", async function(req, res, next) {
       await request
         .post("https://www.google.com/recaptcha/api/siteverify")
         .form({
-          secret: secretKey,
+          secret: process.env.SECRET_KEY,
           response: req.body.token,
           remoteip: req.ip
         })
     );
 
+    console.log(process.env.SECRET_KEY);
+    console.log(result);
     if (!result.success) {
       var erro = new Error("Problema de Captcha");
       next(erro);
