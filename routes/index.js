@@ -24,7 +24,8 @@ mongoose.connect(
     "@" +
     process.env.DB_HOST +
     "/" +
-    process.env.DB_NAME
+    process.env.DB_NAME,
+  { useNewUrlParser: true }
 );
 
 var Schema = mongoose.Schema;
@@ -96,8 +97,6 @@ router.post("/", async function(req, res, next) {
         })
     );
 
-    console.log(process.env.SECRET_KEY);
-    console.log(result);
     if (!result.success) {
       var erro = new Error("Problema de Captcha");
       next(erro);
@@ -124,12 +123,12 @@ router.post("/", async function(req, res, next) {
         if (docs == null) {
           var erro = new Error("Cadastro não localizado");
           next(erro);
+          return;
         }
 
         try {
           res.render("boleto", {
             title: "teste",
-            pad: docs.pad,
             nome: docs.nomesacado,
             cpfcnpj: req.body.cpfcnpj,
             numeroregistro: req.body.numeroregistro,
@@ -160,7 +159,7 @@ router.post("/boleto", async function(req, res, next) {
       await request
         .post("https://www.google.com/recaptcha/api/siteverify")
         .form({
-          secret: secretKey,
+          secret: process.env.SECRET_KEY,
           response: req.body.token,
           remoteip: req.ip
         })
