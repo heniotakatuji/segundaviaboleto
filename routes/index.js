@@ -5,7 +5,6 @@ var request = require("request-promise");
 const fetch = require("isomorphic-fetch");
 var fs = require("fs");
 
-const siteKey = process.env.V3_PUBLIC;
 const secretKey = process.env.SECRET_KEY;
 
 var mongoose = require("mongoose");
