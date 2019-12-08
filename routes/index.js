@@ -8,7 +8,27 @@ const siteKey = process.env.V3_PUBLIC;
 const secretKey = process.env.SECRET_KEY;
 
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/db_got");
+console.log(
+  "mongodb://" +
+    process.env.DB_USER +
+    ":" +
+    process.env.DB_PASS +
+    "@" +
+    process.env.DB_HOST +
+    "/" +
+    process.env.DB_NAME
+);
+mongoose.connect(
+  "mongodb://" +
+    process.env.DB_USER +
+    ":" +
+    process.env.DB_PASS +
+    "@" +
+    process.env.DB_HOST +
+    "/" +
+    process.env.DB_NAME
+);
+
 var Schema = mongoose.Schema;
 
 var boletosDataSchema = new Schema(
@@ -77,9 +97,8 @@ router.post("/", async function(req, res, next) {
           remoteip: req.ip
         })
     );
-    console.log(req.ip);
+
     if (!result.success) {
-      console.log(false);
       var erro = new Error("Problema de Captcha");
       next(erro);
       return;
