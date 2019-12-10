@@ -98,7 +98,7 @@ router.post("/", async function(req, res, next) {
     );
 
     if (!result.success) {
-      var erro = new Error("Problema de Captcha");
+      var erro = new Error("Verificação de BOT");
       next(erro);
       return;
     }
