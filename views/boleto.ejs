@@ -87,25 +87,24 @@
             <div class="wrap-login100">
               <form class="login100-form validate-form" method="post" action="/boleto">
                 <span class="boleto100-form-title">
-                    Olá Dr(a): <%= nome %>, favor escolha uma opção de pagamento
+                    Olá,  <%= nome %> <br> <br>favor escolher uma opção para pagamento
                 </span>
                 
                 
                 <div >
                     <input type="radio" name="radio" id="radio1" value="<%= nomearquivodesconto %>" class="radio sr-only" required/>
-                    <label for="radio1">Pagamento Integral</label>
+                    <label for="radio1">Pagamento Integral de R$ <%= valorIntegral %> <%= vencimentoIntegral %></label>
+                   
                 </div>
                     
                 <div >
                     <input type="radio" name="radio" id="radio2" value="<%= nomearquivoparcelado %>" class="radio sr-only"   required/>
-                    <label for="radio2">Pagamento Parcelado 5 x</label>
+                    <label for="radio2">Pagamento Parcelado 5x de R$ <%= valorParcela %>,<%= vencimentoParcela %></label>
                     
                 </div>
 
                 <input type="hidden" name="token" id="token" />
-                <input type="hidden" name="nome" id="nome" value="<%= nome %>"/>
-                <input type="hidden" name="cpfcnpj" id="cpfcnpj" value="<%= cpfcnpj %>"/>
-                <input type="hidden" name="numeroregistro" id="numeroregistro" value="<%= numeroregistro %>"/>
+                
                 <div width="200px" style="padding: 30px; justify-content: center; display: flex; " >
                   <button type="submit" class="login100-form-btn">
                       Ver Boleto

@@ -103,53 +103,72 @@ router.post("/", async function(req, res, next) {
       return;
     }
 
+    var tNome = "";
+    var tValorIntegral = "";
+    var tNomearquivodesconto = "";
+    var tValorParcela = "";
+    var tNomearquivoparcela = "";
+
     Boletos.findOne({
-      cpf: req.body.cpfcnpj
+      cpfcnpj: req.body.cpfcnpj
         .normalize("NFD")
         .replace(/([\u0300-\u036f]|[^0-9])/g, ""),
-      numeroinscricao: req.body.numeroregistro
+      numeroregistro: req.body.numeroregistro
         .normalize("NFD")
         .replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, "")
-        .toUpperCase()
+        .toUpperCase(),
+      tipo: "00"
     })
       .lean()
       .exec(function(e, docs) {
         if (e) {
-          res.status(500).json({ error: err.message });
+          res.status(500).json({ error: e.message });
           res.end();
           return;
         }
 
-        if (docs == null) {
-          var erro = new Error("Cadastro não localizado");
-          next(erro);
-          return;
+        if (docs !== null) {
+          tNome = docs.nomesacado;
+          tValorIntegral = docs.valor;
+          tNomearquivodesconto = docs.nomearquivo;
         }
 
-        try {
-          res.render("boleto", {
-            title: "teste",
-            nome: docs.nomesacado,
-            cpfcnpj: req.body.cpfcnpj,
-            numeroregistro: req.body.numeroregistro,
-            valor15: docs.valor15,
-            valor10: docs.valor10,
-            valor5: docs.valor5,
-            nomearquivodesconto: docs.nomearquivodesconto,
-            nomearquivoparcelado: docs.nomearquivoparcelado,
-            boletoIntegral: "kdjlfajlflaboletoIntegral",
-            boletoParcela: "kdjlfajlflaboletoParcela",
-            V3_PUBLIC: process.env.V3_PUBLIC
+        Boletos.findOne({
+          cpfcnpj: req.body.cpfcnpj
+            .normalize("NFD")
+            .replace(/([\u0300-\u036f]|[^0-9])/g, ""),
+          numeroregistro: req.body.numeroregistro
+            .normalize("NFD")
+            .replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, "")
+            .toUpperCase(),
+          tipo: "01"
+        })
+          .lean()
+          .exec(function(e, docs) {
+            tValorParcela = docs.valor;
+            tNomearquivoparcela = docs.nomearquivo;
+            try {
+              res.render("boleto", {
+                title: "Segunda via boleto",
+                nome: tNome,
+                nomearquivodesconto: tNomearquivodesconto,
+                nomearquivoparcelado: tNomearquivoparcela,
+                valorIntegral: tValorIntegral,
+                valorParcela: tValorParcela,
+                vencimentoIntegral: process.env.VENCIMENTO_INTEGRAL,
+                vencimentoParcela: process.env.VENCIMENTO_PARCELA,
+                V3_PUBLIC: process.env.V3_PUBLIC
+              });
+              res.end();
+            } catch (err) {
+              var erro = new Error(err);
+              next(erro);
+            }
           });
-          res.end();
-        } catch (err) {
-          var erro = new Error(err);
-          next(erro);
-        }
       });
   } catch (err) {
-    var err = new Error(err);
-    next(err);
+    var erro = new Error(err);
+    next(erro);
   }
 });
 

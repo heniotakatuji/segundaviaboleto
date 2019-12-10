@@ -12,7 +12,7 @@ form {
 
 div {
   clear: both;
-  margin: 0 50px;
+  margin: 0 0px;
 }
 
 label {
@@ -31,13 +31,14 @@ input.radio:empty ~ label {
   position: relative;
   float: left;
   line-height: 2.5em;
-  text-indent: 3.25em;
+  /* text-indent: 3.25em; */
   margin-top: 2em;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  padding-left: 3em;
 }
 
 input.radio:empty ~ label:before {
