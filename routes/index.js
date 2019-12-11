@@ -122,8 +122,8 @@ router.post("/", async function(req, res, next) {
       .lean()
       .exec(function(e, docs) {
         if (e) {
-          res.status(500).json({ error: e.message });
-          res.end();
+          var erro = new Error(e.message);
+          next(erro);
           return;
         }
 
@@ -131,6 +131,10 @@ router.post("/", async function(req, res, next) {
           tNome = docs.nomesacado;
           tValorIntegral = docs.valor;
           tNomearquivodesconto = docs.nomearquivo;
+        } else {
+          var erro = new Error("Cadastro não localizado");
+          next(erro);
+          return;
         }
 
         Boletos.findOne({
@@ -150,6 +154,8 @@ router.post("/", async function(req, res, next) {
             try {
               res.render("boleto", {
                 title: "Segunda via boleto",
+                cpfcnpj: req.body.cpfcnpj,
+                inscricao: req.body.numeroregistro,
                 nome: tNome,
                 nomearquivodesconto: tNomearquivodesconto,
                 nomearquivoparcelado: tNomearquivoparcela,
@@ -212,8 +218,10 @@ router.post("/boleto", async function(req, res, next) {
       cpfcnpj: req.body.cpfcnpj,
       inscricao: req.body.numeroregistro,
       nome: req.body.nome,
-      id: req.ip,
+      ip: req.ip,
       arquivo: req.body.radio,
+      valorIntegral: req.body.valorIntegral,
+      valorParcela: req.body.valorParcela,
       data: new Date()
     };
     var data = new Logs(item);

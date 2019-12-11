@@ -256,6 +256,19 @@ iframe {
   margin: 0 auto;
 }
 
+.login100-form-logo-empresa {
+  font-size: 60px;
+  color: #333333;
+
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .login100-form-title {
   font-family: Poppins-Medium;
   font-size: 25px;
@@ -577,4 +590,21 @@ iframe {
     visibility: visible;
     opacity: 1;
   }
+}
+
+.circle {
+  background-color: #fff;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle img {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

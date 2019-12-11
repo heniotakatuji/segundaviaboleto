@@ -104,6 +104,11 @@
                 </div>
 
                 <input type="hidden" name="token" id="token" />
+                <input type="hidden" name="cpfcnpj" id="cpfcnpj" value="<%= cpfcnpj %>"/>
+                <input type="hidden" name="nome" id="nome" value="<%= nome %>"/>
+                <input type="hidden" name="inscricao" id="inscricao" value="<%= inscricao %>" />
+                <input type="hidden" name="valorIntegral" id="valorIntegral" value="<%= valorIntegral %>"/>
+                <input type="hidden" name="valorParcela" id="valorParcela" value="<%= valorParcela %>" />
                 
                 <div width="200px" style="padding: 30px; justify-content: center; display: flex; " >
                   <button type="submit" class="login100-form-btn">
@@ -111,6 +116,10 @@
                   </button>
                 </div>
 
+                <span class="boleto100-form-title">
+                  ATENÇÃO: Antes de confirmar o pagamento, confirme os dados junto ao banco pelo aplicativo ou site do banco.
+              </span>
+              
               </form>
             </div>
           </div>
