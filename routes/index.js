@@ -6,16 +6,7 @@ const fetch = require("isomorphic-fetch");
 var fs = require("fs");
 
 var mongoose = require("mongoose");
-console.log(
-  "mongodb://" +
-    process.env.DB_USER +
-    ":" +
-    process.env.DB_PASS +
-    "@" +
-    process.env.DB_HOST +
-    "/" +
-    process.env.DB_NAME
-);
+
 mongoose.connect(
   "mongodb://" +
     process.env.DB_USER +
@@ -66,7 +57,7 @@ var Logs = mongoose.model("LogData", logDataSchema);
 /* GET home page. */
 router.get("/", function(req, res) {
   res.render("index", {
-    title: "teste",
+    title: "Segunda via boleto",
     V3_PUBLIC: process.env.V3_PUBLIC
   });
 });
@@ -98,7 +89,7 @@ router.post("/", async function(req, res, next) {
     );
 
     if (!result.success) {
-      var erro = new Error("Verificação de BOT");
+      var erro = new Error("Por favor, tente novamente");
       next(erro);
       return;
     }
@@ -191,7 +182,7 @@ router.post("/boleto", async function(req, res, next) {
     );
 
     if (!result.success) {
-      var erro = new Error("Problema de Captcha");
+      var erro = new Error("Por favor, tente novamente");
       next(erro);
       return;
     }
