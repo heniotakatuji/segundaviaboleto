@@ -58,7 +58,8 @@ var Logs = mongoose.model("LogData", logDataSchema);
 router.get("/", function(req, res) {
   res.render("index", {
     title: "Segunda via boleto",
-    V3_PUBLIC: process.env.V3_PUBLIC
+    V3_PUBLIC: process.env.V3_PUBLIC,
+    INPUT_INSCRICAO_PLACEHOLDER: process.env.INPUT_INSCRICAO_PLACEHOLDER
   });
 });
 
@@ -99,6 +100,7 @@ router.post("/", async function(req, res, next) {
     var tNomearquivodesconto = "";
     var tValorParcela = "";
     var tNomearquivoparcela = "";
+    var tNaoLocalizado = false;
 
     Boletos.findOne({
       cpfcnpj: req.body.cpfcnpj
@@ -123,9 +125,11 @@ router.post("/", async function(req, res, next) {
           tValorIntegral = docs.valor;
           tNomearquivodesconto = docs.nomearquivo;
         } else {
-          var erro = new Error("Cadastro não localizado");
-          next(erro);
-          return;
+          //var erro = new Error("Cadastro não localizado");
+          //next(erro);
+          //return;
+          tValorIntegral = 0;
+          tNaoLocalizado = true;
         }
 
         Boletos.findOne({
@@ -136,12 +140,23 @@ router.post("/", async function(req, res, next) {
             .normalize("NFD")
             .replace(/([\u0300-\u036f]|[^0-9a-zA-Z])/g, "")
             .toUpperCase(),
-          tipo: "01"
+          tipo: "PP"
         })
           .lean()
           .exec(function(e, docs) {
-            tValorParcela = docs.valor;
-            tNomearquivoparcela = docs.nomearquivo;
+            if (docs === null) {
+              if (tNaoLocalizado === true) {
+                var erro = new Error("Cadastro não localizado");
+                next(erro);
+                return;
+              }
+              tValorParcela = 0;
+            } else {
+              tNome = docs.nomesacado;
+              tValorParcela = docs.valor;
+              tNomearquivoparcela = docs.nomearquivo;
+            }
+
             try {
               res.render("boleto", {
                 title: "Segunda via boleto",

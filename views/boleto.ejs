@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Login V3</title>
+        <title>Segunda via boleto</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
     
@@ -90,18 +90,21 @@
                     Olá,  <%= nome %> <br> <br>favor escolher uma opção para pagamento
                 </span>
                 
-                
+                <% if (valorIntegral > 0) { %>
                 <div >
                     <input type="radio" name="radio" id="radio1" value="<%= nomearquivodesconto %>" class="radio sr-only" required/>
-                    <label for="radio1">Pagamento Integral de R$ <%= valorIntegral %> <%= vencimentoIntegral %></label>
+                    <label for="radio1">Pagamento Integral para pagamento <%= vencimentoIntegral %></label>
                    
                 </div>
+                <% } %>
                     
+                <% if (valorParcela > 0) { %>
                 <div >
                     <input type="radio" name="radio" id="radio2" value="<%= nomearquivoparcelado %>" class="radio sr-only"   required/>
                     <label for="radio2">Pagamento Parcelado 5x de R$ <%= valorParcela %>,<%= vencimentoParcela %></label>
                     
                 </div>
+                <% } %>
 
                 <input type="hidden" name="token" id="token" />
                 <input type="hidden" name="cpfcnpj" id="cpfcnpj" value="<%= cpfcnpj %>"/>
